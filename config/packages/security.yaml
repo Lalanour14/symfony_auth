@@ -13,7 +13,7 @@ security:
         main:
             lazy: true
             provider: user_provider
-            
+
             logout:
                 path: /logout
             form_login:
@@ -29,7 +29,7 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/protected, roles: ROLE_USER }
 
 when@test:
     security:
