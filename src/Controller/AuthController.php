@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class AuthController extends AbstractController
 {
@@ -17,16 +18,16 @@ class AuthController extends AbstractController
     {
         $errors = [];
         $formData = $request->request->all();
-        if(!empty($formData)) {
+        if (!empty($formData)) {
             $user = new User($formData['email'], $formData['password']);
-            if($user->getPassword() != $formData['repeat-password']) {
+            if ($user->getPassword() != $formData['repeat-password']) {
                 $errors[] = 'Password did not match.';
             }
-            if($repo->findByEmail($user->getEmail())) {
+            if ($repo->findByEmail($user->getEmail())) {
                 $errors[] = 'User already exists with that email.';
             }
             //Si on a pas d'erreur alors on fait persister le user
-            if(empty($errors)) {
+            if (empty($errors)) {
                 //On hash le mot de passe du user
                 $hash = $hasher->hashPassword($user, $user->getPassword());
                 $user->setPassword($hash);
@@ -37,6 +38,18 @@ class AuthController extends AbstractController
         }
         return $this->render('auth/register.html.twig', [
             'errors' => $errors
+        ]);
+    }
+
+    #[Route("/login")]
+    public function login(AuthenticationUtils $authenticationUtils)
+    {
+        $error = $authenticationUtils->getLastAuthenticationError();
+
+        $lastUsername = $authenticationUtils->getLastUsername();
+        return $this->render('auth/login.html.twig', [
+            'error' => $error,
+            'lastUsername' => $lastUsername
         ]);
     }
 }
