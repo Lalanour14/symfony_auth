@@ -1,7 +1,5 @@
 -- Active: 1685437430041@@127.0.0.1@3306@symfony_auth
 
-
-
 DROP TABLE IF EXISTS user;
 
 CREATE TABLE user (
