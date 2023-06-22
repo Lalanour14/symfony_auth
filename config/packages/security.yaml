@@ -30,6 +30,7 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/protected, roles: ROLE_USER }
+        - { path: /add-message, roles: ROLE_USER }
 
 when@test:
     security:
