@@ -52,7 +52,7 @@ class AuthController extends AbstractController
             'lastUsername' => $lastUsername
         ]);
     }
-
+    
     #[Route("/protected")]
     public function protected() {
         return $this->render('auth/protected.html.twig', [

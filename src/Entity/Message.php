@@ -5,7 +5,7 @@ namespace App\Entity;
 class Message {
     public function __construct(
         private string $content,
-        private int $idUser,
+        private User $user,
         private ?int $id = null
     ) {}
     
@@ -43,18 +43,18 @@ class Message {
 	}
 	
 	/**
-	 * @return int
+	 * @return User
 	 */
-	public function getIdUser(): int {
-		return $this->idUser;
+	public function getUser(): User {
+		return $this->user;
 	}
 	
 	/**
-	 * @param int $idUser 
+	 * @param User $user 
 	 * @return self
 	 */
-	public function setIdUser(int $idUser): self {
-		$this->idUser = $idUser;
+	public function setUser(User $user): self {
+		$this->user = $user;
 		return $this;
 	}
 }

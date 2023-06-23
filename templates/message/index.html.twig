@@ -6,6 +6,6 @@
 <h1>Messages List</h1>
 
 {% for item in messages %}
-    <p>User Id {{item.idUser}} : {{item.content}}</p>
+    <p>{{item.user.email}} : {{item.content}}</p>
 {% endfor %}
 {% endblock %}

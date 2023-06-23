@@ -25,13 +25,10 @@ class MessageController extends AbstractController
     #[Route('/add-message')]
     public function addMessage(Request $request): Response {
         $formData = $request->request->all();
-        /**
-         * @var User
-         */
-        $user =  $this->getUser();
+        
         
         if(!empty($formData)) {
-            $message = new Message($formData['content'], $user->getId());
+            $message = new Message($formData['content'], $this->getUser());
             $this->repo->persist($message);
             return $this->redirect('/');
         }
