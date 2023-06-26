@@ -12,7 +12,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class MessageController extends AbstractController
 {
-    public function __construct(private MessageRepository $repo) {}
+    public function __construct(private MessageRepository $repo)
+    {
+    }
 
     #[Route()]
     public function index(): Response
@@ -23,11 +25,12 @@ class MessageController extends AbstractController
     }
 
     #[Route('/add-message')]
-    public function addMessage(Request $request): Response {
+    public function addMessage(Request $request): Response
+    {
         $formData = $request->request->all();
-        
-        
-        if(!empty($formData)) {
+
+
+        if (!empty($formData)) {
             $message = new Message($formData['content'], $this->getUser());
             $this->repo->persist($message);
             return $this->redirect('/');
@@ -35,5 +38,25 @@ class MessageController extends AbstractController
         return $this->render('message/add-message.html.twig', [
 
         ]);
+    }
+    #[Route("/delete-message/{id}")]
+    /**
+     * Summary of removeMessage
+     * @param int $id
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function removeMessage(int $id): Response
+    {
+        $message = $this->repo->findbyId($id);
+        /**
+         * @var User
+         */
+
+        $user = $this->getUser();
+        if ($user->getId() == $message?->getUser()->getId()) {
+            $this->repo->delete($id);
+        }
+
+        return $this->redirect("/");
     }
 }
